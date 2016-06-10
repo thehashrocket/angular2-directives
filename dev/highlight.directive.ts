@@ -1,18 +1,28 @@
-import {Directive, ElementRef, OnInit, Renderer} from '@angular/core'
-
+import { Directive, ElementRef, OnInit, Renderer} from '@angular/core';
 @Directive({
     selector: '[myHighlight]',
-
+    inputs: ['highlightColor:myHighlight'],
+    host: {
+        '(mouseenter)': 'onMouseEnter()',
+        '(mouseleave)': 'onMouseLeave()'
+    }
 })
-export class HighlightDirective implements OnInit {
+export class HighlightDirective {
     private _defaultColor = 'green';
+    highlightColor: string;
+    private el:HTMLElement;
 
-    constructor(private _elRef: ElementRef, private _renderer: Renderer) {
-
+    constructor( el: ElementRef, private _renderer: Renderer) {
+        this.el = el.nativeElement; '' +
+        console.log('ElementRef ', ElementRef);
     }
 
-    ngOnInit():any {
-        console.log('this._elRef', this._elRef);
-        this._renderer.setElementStyle(this._elRef.nativeElement, 'background-color', this._defaultColor);
+    onMouseEnter() { this.highlight(this.highlightColor || this._defaultColor); }
+
+    onMouseLeave() { this.highlight(null); }
+
+    private highlight(color:string) {
+
+        this.el.style.backgroundColor = color;
     }
 }
