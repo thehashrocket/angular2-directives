@@ -1,4 +1,5 @@
 import {Component} from '@angular/core';
+import {UnlessDirective} from "./unless.directive";
 
 @Component({
     selector: 'my-structural-directive',
@@ -41,7 +42,20 @@ import {Component} from '@angular/core';
                 </template>
             </div>
         </section>
+            
+        <section class="directive">
+            <h2>Custom Directive: *myUnless</h2>
+            <div>
+                <h2>Enter true or false</h2>
+                <br/>
+                <input type="text" #condition (keyup)="0">
+            </div>
+            <div *myUnless="condition.value != 'false'">
+                Only shown if 'false' was entered.
+            </div>
+        </section>
     `,
+    directives: [UnlessDirective]
 })
 
 export class StructuralDirective {
